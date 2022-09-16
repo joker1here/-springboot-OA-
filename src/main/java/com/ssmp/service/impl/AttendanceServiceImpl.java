@@ -21,6 +21,8 @@ import java.util.List;
 public class AttendanceServiceImpl extends ServiceImpl<AttendanceDao, Attendance> implements IAttendanceService {
     @Autowired
     private IEmployeeService employeeService;
+    @Autowired
+    private AttendanceDao attendanceDao;
 
     /**
      * 重写查找所有签到信息的方法，补上外键信息
@@ -29,10 +31,13 @@ public class AttendanceServiceImpl extends ServiceImpl<AttendanceDao, Attendance
      */
     @Override
     public List<Attendance> findAll() {
-        List<Attendance> list = list();
-        for (Attendance attendance : list) {
-            addForeign(attendance);
-        }
+//        LambdaQueryWrapper<Attendance> lqw = new LambdaQueryWrapper<Attendance>();
+//        lqw.orderByDesc(Attendance::getSignUpTime);
+//        List<Attendance> list = list(lqw);
+//        for (Attendance attendance : list) {
+//            addForeign(attendance);
+//        }
+        List<Attendance> list = attendanceDao.findAllWithForeign();
         return list;
     }
 
@@ -45,12 +50,18 @@ public class AttendanceServiceImpl extends ServiceImpl<AttendanceDao, Attendance
      */
     @Override
     public IPage<Attendance> getPage(int currentPage, int pageSize) {
+//        LambdaQueryWrapper<Attendance> lqw = new LambdaQueryWrapper<Attendance>();
+//        lqw.orderByDesc(Attendance::getSignUpTime);
+//        IPage<Attendance> iPage = new Page<>(currentPage,pageSize);
+//        page(iPage,lqw);
+//        //遍历一遍，加上外键和计算分钟
+//        for (Attendance attendance : iPage.getRecords()) {
+//            addForeign(attendance);
+//        }
         IPage<Attendance> iPage = new Page<>(currentPage,pageSize);
-        page(iPage);
-        //遍历一遍，加上外键和计算分钟
-        for (Attendance attendance : iPage.getRecords()) {
-            addForeign(attendance);
-        }
+        List<Attendance> list = attendanceDao.pageWithForeign((currentPage - 1) * pageSize, pageSize);
+        iPage.setRecords(list);
+        iPage.setTotal(count());
         return iPage;
     }
 

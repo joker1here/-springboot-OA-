@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssmp.dao.TodoDao">
+    <resultMap id="employee" type="employee" autoMapping="true"/>
+
+    <resultMap id="todo" type="Todo" autoMapping="true">
+        <association property="employee" column="employee_id" resultMap="employee" javaType="Employee"/>
+    </resultMap>
+
+<!--    可以用*代替，最好还是把列名打上-->
+    <select id="findAllWithForeign" resultMap="todo" >
+        SELECT
+            *
+        FROM
+            todo t,
+            employee e
+        WHERE
+            t.employee_Id = e.Employee_Id
+        AND #{id}=e.Employee_Id
+    </select>
+
+    <select id="pageWithForeign" resultMap="todo" >
+        SELECT
+            *
+        FROM
+            todo t,
+            employee e
+        WHERE
+            t.employee_Id = e.Employee_Id
+          AND #{id}=e.Employee_Id
+        LIMIT
+            #{start},#{pageSize}
+    </select>
+</mapper>

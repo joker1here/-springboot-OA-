@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssmp.dao.AttendanceDao">
+    <resultMap id="employee" type="employee" autoMapping="true"/>
+
+    <resultMap id="attendance" type="Attendance" autoMapping="true">
+        <association property="employee" column="AttendanceEmployee" resultMap="employee" javaType="Employee"/>
+    </resultMap>
+
+<!--    可以用*代替，最好还是把列名打上-->
+    <select id="findAllWithForeign" resultMap="attendance" >
+        SELECT *
+        FROM attendance a ,employee e
+        WHERE a.Attendance_Employee=e.Employee_Id
+        ORDER BY a.Sign_Up_Time DESC
+    </select>
+
+    <select id="pageWithForeign" resultMap="attendance" >
+        SELECT *
+        FROM attendance a ,employee e
+        WHERE a.Attendance_Employee=e.Employee_Id
+        ORDER BY a.Sign_Up_Time DESC
+        LIMIT #{start},#{pageSize}
+    </select>
+</mapper>

@@ -11,5 +11,8 @@ mybatis-plus:
   global-config:
     db-config:
       id-type: auto
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.ssmp.pojo #自动映射mapper里的类
+
 server:
   port: 8081

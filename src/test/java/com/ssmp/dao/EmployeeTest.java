@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.sql.Wrapper;
+import java.util.List;
 
 @SpringBootTest
 public class EmployeeTest {
@@ -52,5 +53,12 @@ public class EmployeeTest {
         LambdaQueryWrapper<Employee> lqw = new LambdaQueryWrapper<Employee>();
         lqw.like(name!=null,Employee::getEmployeeName, name);
         employeeDao.selectList(lqw);
+    }
+    @Test
+    void getAllWithForeign(){
+        List<Employee> employees = employeeDao.findWithForeign();
+        for (Employee employee : employees) {
+            System.out.println(employee);
+        }
     }
 }

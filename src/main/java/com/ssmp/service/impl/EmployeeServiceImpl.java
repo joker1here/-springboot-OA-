@@ -24,6 +24,8 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeDao, Employee> impl
     @Autowired
     private IDeptService deptService;
 
+    @Autowired
+    private EmployeeDao employeeDao;
     /**
      * 为List<Employee>添加外键
      *
@@ -31,7 +33,10 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeDao, Employee> impl
      */
     @Override
     public List<Employee> findAll() {
-        List<Employee> list = list();
+//        LambdaQueryWrapper<Employee> lqw = new LambdaQueryWrapper<Employee>();
+//        lqw.orderByDesc(Employee::getUserLevel);
+//        List<Employee> list = list(lqw);
+        List<Employee> list = employeeDao.findWithForeign();
         for (Employee employee : list) {
             addForeign(employee);
         }
@@ -60,12 +65,18 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeDao, Employee> impl
      */
     @Override
     public IPage<Employee> getPage(int currentPage, int pageSize) {
+//        LambdaQueryWrapper<Employee> lqw = new LambdaQueryWrapper<Employee>();
+//        lqw.orderByDesc(Employee::getUserLevel);
+//        IPage<Employee> iPage = new Page<>(currentPage,pageSize);
+//        page(iPage,lqw);
+//        //遍历一遍，加上外键和计算分钟
+//        for (Employee employee : iPage.getRecords()) {
+//            addForeign(employee);
+//        }
         IPage<Employee> iPage = new Page<>(currentPage,pageSize);
-        page(iPage);
-        //遍历一遍，加上外键和计算分钟
-        for (Employee employee : iPage.getRecords()) {
-            addForeign(employee);
-        }
+        List<Employee> list = employeeDao.pageWithForeign((currentPage - 1) * pageSize, pageSize);
+        iPage.setRecords(list);
+        iPage.setTotal(count());
         return iPage;
     }
 

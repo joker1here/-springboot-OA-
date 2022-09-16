@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssmp.dao.FileDao">
+    <resultMap id="employee" type="employee" autoMapping="true"/>
+
+
+    <resultMap id="file" type="File" autoMapping="true">
+<!--        直接注入,会抢占原有属性id-->
+        <association property="toEmployee" column="file_to" select="com.ssmp.dao.EmployeeDao.selectById"/>
+        <association property="employee" column="employee_id" select="com.ssmp.dao.EmployeeDao.selectById"/>
+
+    </resultMap>
+
+
+<!--    可以用*代替，最好还是把列名打上-->
+    <select id="findSendWithForeign" resultMap="file" >
+        SELECT *
+        FROM file
+        where File_TO=#{id}
+        ORDER BY File_Time DESC
+    </select>
+
+    <select id="findReceiveWithForeign" resultMap="file" >
+        SELECT *
+        FROM file f
+        WHERE f.Employee_ID=#{id}
+        ORDER BY f.File_Time DESC
+    </select>
+
+    <select id="pageSendWithForeign" resultMap="file" >
+        SELECT *
+        FROM file
+        where File_TO=#{id}
+        ORDER BY f.File_Time DESC
+        LIMIT #{start},#{pageSize}
+    </select>
+
+    <select id="pageReceiveWithForeign" resultMap="file" >
+        SELECT *
+        FROM file f
+        WHERE f.Employee_ID=#{id}
+        ORDER BY f.File_Time DESC
+        LIMIT #{start},#{pageSize}
+    </select>
+</mapper>

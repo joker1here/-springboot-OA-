@@ -1,5 +1,6 @@
 package com.ssmp.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.ssmp.pojo.Employee;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,5 +28,15 @@ public class EmployeeTest {
         Employee employee = new Employee();
         employee.setEmployeeName("123");
         iEmployeeService.save(employee);
+    }
+    @Test
+    void find2(){
+        System.out.println(iEmployeeService);
+        IPage<Employee> page = iEmployeeService.getPage(1,3);
+        List<Employee> list = page.getRecords();
+        for (Employee employee : list) {
+            System.out.println(employee);
+        }
+        System.out.println(page.getTotal());
     }
 }

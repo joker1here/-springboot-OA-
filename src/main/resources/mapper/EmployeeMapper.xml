@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssmp.dao.EmployeeDao">
+    <resultMap id="employee" type="Employee" autoMapping="true">
+<!--        autoMapping可以省去这些代码-->
+<!--        <result property="employeeId" column="Employee_Id"/>-->
+<!--        <result property="employeeName" column="Employee_Name"/>-->
+<!--        <result property="pwd" column="Pwd"/>-->
+<!--        <result property="address" column="Address"/>-->
+<!--        <result property="birthday" column="Birthday"/>-->
+<!--        <result property="email" column="Email"/>-->
+<!--        <result property="mobile" column="Mobile"/>-->
+<!--        <result property="photo" column="Photo"/>-->
+<!--        <result property="sex" column="Sex"/>-->
+<!--        <result property="userLevel" column="User_Level"/>-->
+<!--        <result property="deptId" column="Dept_Id"/>-->
+<!--        <result property="jobId" column="Job_Id"/>-->
+
+        <association property="dept" column="dept_id" resultMap="dept" javaType="Dept"/>
+<!--        <collection property="dept" ofType="com.ssmp.pojo.Dept">-->
+<!--            <result property="deptId" column="Dept_ID"/>-->
+<!--            <result property="deptIntroduce" column="Dept_Introduce"/>-->
+<!--            <result property="deptName" column="Dept_Name"/>-->
+<!--        </collection>-->
+        <association property="job" column="job_id" resultMap="job" javaType="Job"/>
+<!--        <collection property="job" ofType="com.ssmp.pojo.Job">-->
+<!--            <result property="jobId" column="Job_ID"/>-->
+<!--            <result property="jobIntroduce" column="Job_Introduce"/>-->
+<!--            <result property="jobName" column="Job_Name"/>-->
+<!--        </collection>-->
+    </resultMap>
+    <resultMap id="dept" type="Dept" autoMapping="true"/>
+
+    <resultMap id="job" type="Job" autoMapping="true">
+<!--        autoMapping打开，这些也可以不用写-->
+<!--        <id property="jobId" column="Job_ID"/>-->
+<!--        <result property="jobIntroduce" column="Job_Introduce"/>-->
+<!--        <result property="jobName" column="Job_Name"/>-->
+    </resultMap>
+<!--    可以用*代替，最好还是把列名打上-->
+    <select id="findWithForeign" resultMap="employee" >
+        select
+            *
+        from employee e,job j,dept d
+        where e.Dept_Id=d.Dept_ID
+          AND e.Job_Id=j.Job_ID
+    </select>
+    <select id="pageWithForeign" resultMap="employee" >
+        SELECT *
+        from employee e,job j,dept d
+        where e.Dept_Id=d.Dept_ID
+        AND e.Job_Id=j.Job_ID
+        ORDER BY e.user_level DESC
+        LIMIT #{start},#{pageSize}
+    </select>
+</mapper>

@@ -1,5 +1,6 @@
 package com.ssmp.pojo;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,4 +18,6 @@ public class Notice implements Serializable {
     private String noticeInfo;
     private Date noticeTime;
     private int employeeId;
+    @TableField(exist = false)
+    private Employee employee;
 }

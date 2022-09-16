@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssmp.dao.NoticeDao">
+    <resultMap id="employee" type="employee" autoMapping="true"/>
+
+    <resultMap id="notice" type="Notice" autoMapping="true">
+        <association property="employee" column="employee_id" resultMap="employee" javaType="Employee"/>
+    </resultMap>
+
+<!--    可以用*代替，最好还是把列名打上-->
+    <select id="findAllWithForeign" resultMap="notice" >
+        SELECT
+            *
+        FROM
+            notice n,
+            employee e
+        WHERE
+            n.employee_Id = e.Employee_Id
+        ORDER BY
+            n.Notice_Time DESC
+    </select>
+
+    <select id="pageWithForeign" resultMap="notice" >
+        SELECT
+            *
+        FROM
+            notice n,
+            employee e
+        WHERE
+            n.employee_Id = e.Employee_Id
+        ORDER BY
+            n.Notice_Time DESC
+        LIMIT
+            #{start},#{pageSize}
+    </select>
+</mapper>

@@ -22,6 +22,8 @@ import java.util.List;
 public class FileServiceImpl extends ServiceImpl<FileDao, File> implements IFileService {
     @Autowired
     private IEmployeeService employeeService;
+    @Autowired
+    private FileDao fileDao;
 
     @Override
     public IPage<File> getPage(int currentPage, int pageSize) {
@@ -43,22 +45,33 @@ public class FileServiceImpl extends ServiceImpl<FileDao, File> implements IFile
 
     @Override
     public List<File> findReceived(Integer employeeId) {
-        LambdaQueryWrapper<File> lqw = new LambdaQueryWrapper<>();
-        lqw.eq(File::getFileTo, employeeId);
-        List<File> list = list(lqw);
+//        LambdaQueryWrapper<File> lqw = new LambdaQueryWrapper<>();
+//        lqw.eq(File::getFileTo, employeeId);
+//        List<File> list = list(lqw);
+//        for (File file : list) {
+//            addForeign(file);
+//        }
+        List<File> list = fileDao.findReceiveWithForeign(employeeId);
         for (File file : list) {
-            addForeign(file);
+            file.setFileTo(file.getToEmployee().getEmployeeId());
+            file.setEmployeeId(file.getEmployee().getEmployeeId());
         }
         return list;
     }
 
     @Override
     public List<File> findSend(Integer employeeId) {
-        LambdaQueryWrapper<File> lqw = new LambdaQueryWrapper<>();
-        lqw.eq(File::getEmployeeId, employeeId);
-        List<File> list = list(lqw);
+//        LambdaQueryWrapper<File> lqw = new LambdaQueryWrapper<>();
+//        lqw.eq(File::getEmployeeId, employeeId);
+//        List<File> list = list(lqw);
+//        for (File file : list) {
+//            addForeign(file);
+//        }
+
+        List<File> list = fileDao.findSendWithForeign(employeeId);
         for (File file : list) {
-            addForeign(file);
+            file.setFileTo(file.getToEmployee().getEmployeeId());
+            file.setEmployeeId(file.getEmployee().getEmployeeId());
         }
         return list;
     }
@@ -80,20 +93,36 @@ public class FileServiceImpl extends ServiceImpl<FileDao, File> implements IFile
 
     @Override
     public IPage<File> getReceivePage(int currentPage, int pageSize) {
-        IPage ipage = new Page(currentPage, pageSize);
-        LambdaQueryWrapper<File> lqw = new LambdaQueryWrapper<>();
-        Employee employee = SessionUtil.getEmployee();
-        lqw.eq(File::getFileTo, employee.getEmployeeId());
-        return page(ipage, lqw);
+//        IPage ipage = new Page(currentPage, pageSize);
+//        LambdaQueryWrapper<File> lqw = new LambdaQueryWrapper<>();
+//        Employee employee = SessionUtil.getEmployee();
+//        lqw.eq(File::getFileTo, employee.getEmployeeId());
+        IPage<File> iPage = new Page<>(currentPage,pageSize);
+        List<File> list = fileDao.pageReceiveWithForeign((currentPage - 1) * pageSize, pageSize, SessionUtil.getEmployee().getEmployeeId());
+        for (File file : list) {
+            file.setFileTo(file.getToEmployee().getEmployeeId());
+            file.setEmployeeId(file.getEmployee().getEmployeeId());
+        }
+        iPage.setRecords(list);
+        iPage.setTotal(count());
+        return iPage;
     }
 
     @Override
     public IPage<File> getSendPage(int currentPage, int pageSize) {
-        IPage ipage = new Page(currentPage, pageSize);
-        LambdaQueryWrapper<File> lqw = new LambdaQueryWrapper<>();
-        Employee employee = SessionUtil.getEmployee();
-        lqw.eq(File::getEmployeeId, employee.getEmployeeId());
-        return page(ipage, lqw);
+//        IPage ipage = new Page(currentPage, pageSize);
+//        LambdaQueryWrapper<File> lqw = new LambdaQueryWrapper<>();
+//        Employee employee = SessionUtil.getEmployee();
+//        lqw.eq(File::getEmployeeId, employee.getEmployeeId());
+        IPage<File> iPage = new Page<>(currentPage,pageSize);
+        List<File> list = fileDao.pageSendWithForeign((currentPage - 1) * pageSize, pageSize, SessionUtil.getEmployee().getEmployeeId());
+        for (File file : list) {
+            file.setFileTo(file.getToEmployee().getEmployeeId());
+            file.setEmployeeId(file.getEmployee().getEmployeeId());
+        }
+        iPage.setRecords(list);
+        iPage.setTotal(count());
+        return iPage;
     }
 
     private void addForeign(File file) {

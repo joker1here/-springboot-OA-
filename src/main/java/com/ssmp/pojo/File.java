@@ -19,11 +19,11 @@ public class File implements Serializable {
     private String fileForm;
     private Date fileTime;
     private String fileText;
-    //接收方
+    //发送者
     private int FileTo;
     @TableField(exist = false)
     private Employee ToEmployee;
-    //发送方
+    //接受者
     private int employeeId;
     @TableField(exist = false)
     private Employee employee;
