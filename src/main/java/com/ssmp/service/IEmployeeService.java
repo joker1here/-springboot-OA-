@@ -38,4 +38,11 @@ public interface IEmployeeService extends IService<Employee> {
      * @return boolean
      */
     Result login(String name, String pwd, HttpSession session);
+
+    /**
+     * 登出
+     * @param session
+     * @return
+     */
+    Result logout(HttpSession session);
 }

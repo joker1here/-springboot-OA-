@@ -20,4 +20,8 @@ public class LoginController {
     public Result login(@PathVariable String name, @PathVariable String pwd, HttpSession session) {
         return employeeService.login(name,pwd,session);
     }
+    @GetMapping
+    public Result logout(HttpSession session){
+        return employeeService.logout(session);
+    }
 }

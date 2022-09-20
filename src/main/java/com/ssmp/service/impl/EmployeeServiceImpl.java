@@ -102,6 +102,21 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeDao, Employee> impl
     }
 
     /**
+     * 登出
+     * @param session
+     * @return
+     */
+    @Override
+    public Result logout(HttpSession session) {
+        Employee employee = (Employee) session.getAttribute("employee");
+        if (employee==null){
+            return Result.fail("请先登陆！");
+        }
+        session.setAttribute("employee",null);
+        return Result.ok();
+    }
+
+    /**
      * 为Employee添加Job和Dept外键，因为是地址运算，不用返回实体
      * @param employee
      */

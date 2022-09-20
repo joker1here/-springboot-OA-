@@ -1,6 +1,5 @@
 package com.ssmp.controller;
 
-import com.ssmp.pojo.Attendance;
 import com.ssmp.pojo.Employee;
 import com.ssmp.service.IAttendanceService;
 import com.ssmp.utils.Result;

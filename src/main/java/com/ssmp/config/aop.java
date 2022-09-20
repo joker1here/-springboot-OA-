@@ -11,14 +11,39 @@ import org.springframework.stereotype.Component;
 @Component
 @Aspect
 public class aop {
+    //切点在除登陆外的所有控制器
     @Pointcut("execution(* com.ssmp.controller.*.*(..)) " +
             "&& !execution(* com.ssmp.controller.LoginController.*(..))")
     public void pc1() {
+    }
+    /**
+     * 使用环绕增强器实现拦截器功能
+     * @param pjp
+     * @return
+     * @throws Throwable
+     */
+    @Around("pc1()")
+    public Object around(ProceedingJoinPoint pjp) throws Throwable {
+        //判断是否登陆
+        Employee employee = SessionUtil.getEmployee();
+        if (employee==null){
+            System.out.println("没有登录！");
+            return Result.fail("没有登录！");
+        }
+        //判断方法有无异常
+        try{
+            //运行原方法
+            return pjp.proceed();
+        }catch ( Exception e){
+            System.out.println("数据库异常："+e);
+            return Result.fail("数据库错误！");
+        }
     }
 
 //    @Before(value = "pc1()")
 //    public void before(JoinPoint jp) {
 //        String name = jp.getSignature().getName();
+//
 //        System.out.println(name + "方法开始执行...");
 //        Employee employee = SessionUtil.getEmployee();
 //        System.out.println("session:"+employee);
@@ -42,21 +67,5 @@ public class aop {
 //        System.out.println(name + "方法抛异常了，异常是: " + e.getMessage());
 //    }
 //
-
-    /**
-     * 使用环绕增强器实现拦截器功能
-     * @param pjp
-     * @return
-     * @throws Throwable
-     */
-    @Around("pc1()")
-    public Object around(ProceedingJoinPoint pjp) throws Throwable {
-        Employee employee = SessionUtil.getEmployee();
-        if (employee != null) {
-            return pjp.proceed();
-        }
-        System.out.println("没有登录！");
-        return Result.fail("没有登录！");
-    }
 
 }
