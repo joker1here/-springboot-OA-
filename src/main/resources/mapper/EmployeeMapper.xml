@@ -53,6 +53,21 @@
         where e.Dept_Id=d.Dept_ID
         AND e.Job_Id=j.Job_ID
         ORDER BY e.user_level DESC
-        LIMIT #{start},#{pageSize}
+    </select>
+    <select id="pageWithForeignSelect" resultMap="employee" >
+        SELECT *
+        from employee e,job j,dept d
+        where e.Dept_Id=d.Dept_ID
+          AND e.Job_Id=j.Job_ID
+        <if test="employeeName != null and employeeName !=''">
+            AND e.employee_Name like concat('%',#{employeeName}, '%')
+        </if>
+        <if test="deptId != 0">
+            AND e.Dept_Id=#{deptId}
+        </if>
+        <if test="jobId != 0">
+            AND e.Job_Id=#{jobId}
+        </if>
+        ORDER BY e.user_level DESC
     </select>
 </mapper>

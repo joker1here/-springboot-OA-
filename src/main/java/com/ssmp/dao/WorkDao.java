@@ -1,6 +1,7 @@
 package com.ssmp.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.ssmp.pojo.Attendance;
 import com.ssmp.pojo.Employee;
 import com.ssmp.pojo.Work;
@@ -26,19 +27,15 @@ public interface WorkDao extends BaseMapper<Work> {
 
     /**
      * 多表联查，自定义分页-收信箱
-     * @param start
-     * @param pageSize
      * @param id
      * @return
      */
-    List<Work> pageReceiveWithForeign(Integer start,Integer pageSize,Integer id);
+    List<Work> pageReceiveWithForeign(IPage<Work> iPage, Integer id);
 
     /**
      * 多表联查，自定义分页-发信箱
-     * @param start
-     * @param pageSize
      * @param id
      * @return
      */
-    List<Work> pageSendWithForeign(Integer start,Integer pageSize,Integer id);
+    List<Work> pageSendWithForeign(IPage<Work> iPage,Integer id);
 }

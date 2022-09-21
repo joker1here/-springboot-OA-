@@ -32,7 +32,5 @@
             n.employee_Id = e.Employee_Id
         ORDER BY
             n.Notice_Time DESC
-        LIMIT
-            #{start},#{pageSize}
     </select>
 </mapper>

@@ -14,7 +14,7 @@ public class EmployeeTest {
     @Test
     void find(){
         System.out.println(iEmployeeService);
-        List<Employee> list = iEmployeeService.list();
+        List<Employee> list = iEmployeeService.findAll();
         for (Employee employee : list) {
             System.out.println(employee);
         }

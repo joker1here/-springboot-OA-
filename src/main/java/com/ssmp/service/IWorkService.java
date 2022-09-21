@@ -44,7 +44,7 @@ public interface IWorkService extends IService<Work> {
      * @param pageSize
      * @return
      */
-    IPage<Work> getReceivePage(int currentPage, int pageSize);
+    IPage<Work> getReceivePage(int currentPage, int pageSize,Work work);
 
     /**
      * 发任务分页
@@ -52,5 +52,5 @@ public interface IWorkService extends IService<Work> {
      * @param pageSize
      * @return
      */
-    IPage<Work> getSendPage(int currentPage, int pageSize);
+    IPage<Work> getSendPage(int currentPage, int pageSize,Work work);
 }

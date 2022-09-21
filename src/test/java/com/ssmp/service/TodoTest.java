@@ -13,7 +13,7 @@ public class TodoTest {
     private ITodoService attendanceService;
     @Test
     void page() {
-        IPage<Todo> page = attendanceService.getPage(1, 5);
+        IPage<Todo> page = attendanceService.getPage(1, 5,null);
         System.out.println(page.getRecords());
         System.out.println(page.getTotal());
         System.out.println(page.getPages());

@@ -70,8 +70,8 @@ public class JobController {
      * @return IPage<Job>
      */
     @GetMapping("/{currentPage}/{pageSize}")
-    public Result page(@PathVariable int currentPage,@PathVariable int pageSize){
-        return Result.ok(iJobService.getPage(currentPage, pageSize));
+    public Result page(@PathVariable int currentPage,@PathVariable int pageSize,Job job){
+        return Result.ok(iJobService.getPage(currentPage, pageSize,job));
     }
 
 }

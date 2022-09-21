@@ -92,36 +92,24 @@ public class FileServiceImpl extends ServiceImpl<FileDao, File> implements IFile
     }
 
     @Override
-    public IPage<File> getReceivePage(int currentPage, int pageSize) {
-//        IPage ipage = new Page(currentPage, pageSize);
-//        LambdaQueryWrapper<File> lqw = new LambdaQueryWrapper<>();
-//        Employee employee = SessionUtil.getEmployee();
-//        lqw.eq(File::getFileTo, employee.getEmployeeId());
+    public IPage<File> getReceivePage(int currentPage, int pageSize,File file1) {
         IPage<File> iPage = new Page<>(currentPage,pageSize);
-        List<File> list = fileDao.pageReceiveWithForeign((currentPage - 1) * pageSize, pageSize, SessionUtil.getEmployee().getEmployeeId());
-        for (File file : list) {
+        fileDao.pageReceiveWithForeign(iPage, SessionUtil.getEmployee().getEmployeeId());
+        for (File file : iPage.getRecords()) {
             file.setFileTo(file.getToEmployee().getEmployeeId());
             file.setEmployeeId(file.getEmployee().getEmployeeId());
         }
-        iPage.setRecords(list);
-        iPage.setTotal(count());
         return iPage;
     }
 
     @Override
-    public IPage<File> getSendPage(int currentPage, int pageSize) {
-//        IPage ipage = new Page(currentPage, pageSize);
-//        LambdaQueryWrapper<File> lqw = new LambdaQueryWrapper<>();
-//        Employee employee = SessionUtil.getEmployee();
-//        lqw.eq(File::getEmployeeId, employee.getEmployeeId());
+    public IPage<File> getSendPage(int currentPage, int pageSize,File file1) {
         IPage<File> iPage = new Page<>(currentPage,pageSize);
-        List<File> list = fileDao.pageSendWithForeign((currentPage - 1) * pageSize, pageSize, SessionUtil.getEmployee().getEmployeeId());
-        for (File file : list) {
+        fileDao.pageSendWithForeign(iPage,SessionUtil.getEmployee().getEmployeeId());
+        for (File file : iPage.getRecords()) {
             file.setFileTo(file.getToEmployee().getEmployeeId());
             file.setEmployeeId(file.getEmployee().getEmployeeId());
         }
-        iPage.setRecords(list);
-        iPage.setTotal(count());
         return iPage;
     }
 

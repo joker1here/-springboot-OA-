@@ -13,7 +13,7 @@ public class NoticeTest {
     private INoticeService attendanceService;
     @Test
     void page() {
-        IPage<Notice> page = attendanceService.getPage(1, 5);
+        IPage<Notice> page = attendanceService.getPage(1, 5,null);
         System.out.println(page.getRecords());
         System.out.println(page.getTotal());
         System.out.println(page.getPages());

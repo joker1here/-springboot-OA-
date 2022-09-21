@@ -20,7 +20,7 @@ public interface IAttendanceService extends IService<Attendance> {
      * @param pageSize
      * @return
      */
-    IPage<Attendance> getPage(int currentPage, int pageSize);
+    IPage<Attendance> getPage(int currentPage, int pageSize , Attendance attendance);
 
     /**
      * 签到

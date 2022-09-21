@@ -28,5 +28,5 @@ public interface ITodoService extends IService<Todo> {
      * @param pageSize
      * @return
      */
-    IPage<Todo> getPage(int currentPage, int pageSize);
+    IPage<Todo> getPage(int currentPage, int pageSize,Todo todo);
 }

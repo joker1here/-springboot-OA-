@@ -45,4 +45,6 @@ public interface IEmployeeService extends IService<Employee> {
      * @return
      */
     Result logout(HttpSession session);
+
+    IPage<Employee> getPageSelect(int currentPage, int pageSize, Employee employee);
 }

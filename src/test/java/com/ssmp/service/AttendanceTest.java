@@ -13,11 +13,10 @@ public class AttendanceTest {
     private IAttendanceService attendanceService;
     @Test
     void page() {
-        IPage<Attendance> page = attendanceService.getPage(1, 5);
+        IPage<Attendance> page = attendanceService.getPage(1, 5,null);
         System.out.println(page.getRecords());
         System.out.println(page.getTotal());
         System.out.println(page.getPages());
         System.out.println(page.getCurrent());
-
     }
 }

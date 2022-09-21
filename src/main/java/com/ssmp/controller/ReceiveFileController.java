@@ -80,8 +80,8 @@ public class ReceiveFileController {
      * @return IPage<file>
      */
     @GetMapping("/{currentPage}/{pageSize}")
-    public Result page(@PathVariable int currentPage,@PathVariable int pageSize){
-        return Result.ok(iFileService.getReceivePage(currentPage, pageSize));
+    public Result page(@PathVariable int currentPage,@PathVariable int pageSize,File file){
+        return Result.ok(iFileService.getReceivePage(currentPage, pageSize,file));
     }
 
 }

@@ -8,5 +8,5 @@ import com.ssmp.pojo.Dept;
 import java.util.List;
 
 public interface IDeptService extends IService<Dept> {
-    IPage<Dept> getPage(int currentPage, int pageSize);
+    IPage<Dept> getPage(int currentPage, int pageSize,Dept dept);
 }

@@ -77,8 +77,8 @@ public class TodoController {
      * @return IPage
      */
     @GetMapping("/{currentPage}/{pageSize}")
-    public Result page(@PathVariable int currentPage,@PathVariable int pageSize){
-        return Result.ok(iTodoService.getPage(currentPage, pageSize));
+    public Result page(@PathVariable int currentPage,@PathVariable int pageSize,Todo todo){
+        return Result.ok(iTodoService.getPage(currentPage, pageSize,todo));
     }
 
 }

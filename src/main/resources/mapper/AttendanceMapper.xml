@@ -22,6 +22,5 @@
         FROM attendance a ,employee e
         WHERE a.Attendance_Employee=e.Employee_Id
         ORDER BY a.Sign_Up_Time DESC
-        LIMIT #{start},#{pageSize}
     </select>
 </mapper>

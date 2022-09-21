@@ -34,7 +34,6 @@
         FROM file
         where File_TO=#{id}
         ORDER BY f.File_Time DESC
-        LIMIT #{start},#{pageSize}
     </select>
 
     <select id="pageReceiveWithForeign" resultMap="file" >
@@ -42,6 +41,5 @@
         FROM file f
         WHERE f.Employee_ID=#{id}
         ORDER BY f.File_Time DESC
-        LIMIT #{start},#{pageSize}
     </select>
 </mapper>

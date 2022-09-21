@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ssmp.dao.EmployeeDao;
-import com.ssmp.pojo.Attendance;
 import com.ssmp.pojo.Employee;
 import com.ssmp.service.IDeptService;
 import com.ssmp.service.IEmployeeService;
@@ -33,13 +32,8 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeDao, Employee> impl
      */
     @Override
     public List<Employee> findAll() {
-//        LambdaQueryWrapper<Employee> lqw = new LambdaQueryWrapper<Employee>();
-//        lqw.orderByDesc(Employee::getUserLevel);
-//        List<Employee> list = list(lqw);
         List<Employee> list = employeeDao.findWithForeign();
-        for (Employee employee : list) {
-            addForeign(employee);
-        }
+
         return list;
     }
 
@@ -65,18 +59,9 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeDao, Employee> impl
      */
     @Override
     public IPage<Employee> getPage(int currentPage, int pageSize) {
-//        LambdaQueryWrapper<Employee> lqw = new LambdaQueryWrapper<Employee>();
-//        lqw.orderByDesc(Employee::getUserLevel);
-//        IPage<Employee> iPage = new Page<>(currentPage,pageSize);
-//        page(iPage,lqw);
-//        //遍历一遍，加上外键和计算分钟
-//        for (Employee employee : iPage.getRecords()) {
-//            addForeign(employee);
-//        }
+        //按用户名和部门id和职位id查询
         IPage<Employee> iPage = new Page<>(currentPage,pageSize);
-        List<Employee> list = employeeDao.pageWithForeign((currentPage - 1) * pageSize, pageSize);
-        iPage.setRecords(list);
-        iPage.setTotal(count());
+        employeeDao.pageWithForeign(iPage,(currentPage - 1) * pageSize, pageSize);
         return iPage;
     }
 
@@ -114,6 +99,20 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeDao, Employee> impl
         }
         session.setAttribute("employee",null);
         return Result.ok();
+    }
+
+    /**
+     * 按条件查询分页
+     * @param currentPage
+     * @param pageSize
+     * @return
+     */
+    @Override
+    public IPage<Employee> getPageSelect(int currentPage, int pageSize, Employee employee) {
+        IPage<Employee> iPage = new Page<>(currentPage,pageSize);
+        employeeDao.pageWithForeignSelect(iPage,
+                        employee.getEmployeeName(), employee.getDeptId(), employee.getJobId());
+        return iPage;
     }
 
     /**

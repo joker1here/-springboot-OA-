@@ -44,7 +44,7 @@ public interface IFileService extends IService<File> {
      * @param pageSize
      * @return
      */
-    IPage<File> getReceivePage(int currentPage, int pageSize);
+    IPage<File> getReceivePage(int currentPage, int pageSize,File file);
 
     /**
      * 发信箱分页
@@ -52,5 +52,5 @@ public interface IFileService extends IService<File> {
      * @param pageSize
      * @return
      */
-    IPage<File> getSendPage(int currentPage, int pageSize);
+    IPage<File> getSendPage(int currentPage, int pageSize,File file);
 }

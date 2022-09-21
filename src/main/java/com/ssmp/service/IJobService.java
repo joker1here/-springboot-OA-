@@ -6,5 +6,5 @@ import com.ssmp.pojo.Attendance;
 import com.ssmp.pojo.Job;
 
 public interface IJobService extends IService<Job> {
-    IPage<Job> getPage(int currentPage, int pageSize);
+    IPage<Job> getPage(int currentPage, int pageSize,Job job);
 }

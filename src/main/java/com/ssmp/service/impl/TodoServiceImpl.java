@@ -31,12 +31,6 @@ public class TodoServiceImpl extends ServiceImpl<TodoDao, Todo> implements ITodo
      */
     @Override
     public List<Todo> findAll(Integer employeeId) {
-//        LambdaQueryWrapper<Todo> lqw = new LambdaQueryWrapper<>();
-//        lqw.eq(Todo::getEmployeeId, employeeId);
-//        List<Todo> list = list(lqw);
-//        for (Todo todo : list) {
-//            addForeign(todo);
-//        }
         List<Todo> list = todoDao.findAllWithForeign(employeeId);
         return list;
     }
@@ -49,17 +43,9 @@ public class TodoServiceImpl extends ServiceImpl<TodoDao, Todo> implements ITodo
     }
 
     @Override
-    public IPage<Todo> getPage(int currentPage, int pageSize) {
-//        IPage<Todo> iPage = new Page<>(currentPage,pageSize);
-//        page(iPage);
-//        //遍历一遍，加上外键
-//        for (Todo todo : iPage.getRecords()) {
-//            addForeign(todo);
-//        }
-        List<Todo> list = todoDao.pageWithForeign((currentPage - 1) * pageSize, pageSize, SessionUtil.getEmployee().getEmployeeId());
-        IPage<Todo> iPage = new Page<>();
-        iPage.setRecords(list);
-        iPage.setTotal(count());
+    public IPage<Todo> getPage(int currentPage, int pageSize,Todo todo) {
+        IPage<Todo> iPage = new Page<>(currentPage,pageSize);
+        todoDao.pageWithForeign(iPage,SessionUtil.getEmployee().getEmployeeId());
         return iPage;
     }
 

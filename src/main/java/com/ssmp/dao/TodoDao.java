@@ -1,6 +1,7 @@
 package com.ssmp.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.ssmp.pojo.Attendance;
 import com.ssmp.pojo.Employee;
 import com.ssmp.pojo.Todo;
@@ -21,5 +22,5 @@ public interface TodoDao extends BaseMapper<Todo> {
      * 多表联查，自定义分页
      * @return
      */
-    List<Todo> pageWithForeign(Integer start,Integer pageSize,Integer id);
+    IPage<Todo> pageWithForeign(IPage<Todo> page, Integer id);
 }

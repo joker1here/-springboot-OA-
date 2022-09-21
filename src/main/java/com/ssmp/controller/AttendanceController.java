@@ -1,5 +1,6 @@
 package com.ssmp.controller;
 
+import com.ssmp.pojo.Attendance;
 import com.ssmp.pojo.Employee;
 import com.ssmp.service.IAttendanceService;
 import com.ssmp.utils.Result;
@@ -28,11 +29,12 @@ public class AttendanceController {
      * 分页列表
      * @param currentPage 当前页
      * @param pageSize 页码数据条数
+     * @parm attendance 查询条件
      * @return IPage<Attendance>
      */
     @GetMapping("/{currentPage}/{pageSize}")
-    public Result page(@PathVariable int currentPage,@PathVariable int pageSize){
-        return Result.ok(iAttendanceService.getPage(currentPage, pageSize));
+    public Result page(@PathVariable int currentPage, @PathVariable int pageSize, Attendance attendance){
+        return Result.ok(iAttendanceService.getPage(currentPage, pageSize,attendance));
     }
 
 

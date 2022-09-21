@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class JobServiceImpl extends ServiceImpl<JobDao, Job> implements IJobService {
     @Override
-    public IPage<Job> getPage(int currentPage, int pageSize) {
+    public IPage<Job> getPage(int currentPage, int pageSize,Job job) {
         IPage<Job> ipage = new Page(currentPage, pageSize);
-        return page(ipage,null);
+        return page(ipage);
     }
 }

@@ -72,9 +72,23 @@ public class EmployeeController {
      * @param pageSize 页码数据条数
      * @return IPage<Employee>
      */
+//    @GetMapping("/{currentPage}/{pageSize}")
+//    public Result page(@PathVariable int currentPage,@PathVariable int pageSize){
+//        return Result.ok(iEmployeeService.getPage(currentPage, pageSize));
+//    }
+
+    /**
+     * 按条件查询分页
+     * @param currentPage
+     * @param pageSize
+     * @parm employee 查询条件
+     * @return
+     */
     @GetMapping("/{currentPage}/{pageSize}")
-    public Result page(@PathVariable int currentPage,@PathVariable int pageSize){
-        return Result.ok(iEmployeeService.getPage(currentPage, pageSize));
+    public Result page(@PathVariable int currentPage,@PathVariable int pageSize,
+                        Employee employee){
+        System.out.println("参数==>:"+employee);
+        return Result.ok(iEmployeeService.getPageSelect(currentPage, pageSize,employee));
     }
 
 }

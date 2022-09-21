@@ -91,34 +91,24 @@ public class WorkServiceImpl extends ServiceImpl<WorkDao, Work> implements IWork
     }
 
     @Override
-    public IPage<Work> getReceivePage(int currentPage, int pageSize) {
+    public IPage<Work> getReceivePage(int currentPage, int pageSize,Work work1) {
         IPage<Work> iPage = new Page<>(currentPage,pageSize);
-        List<Work> list = workDao.pageReceiveWithForeign((currentPage - 1) * pageSize, pageSize, SessionUtil.getEmployee().getEmployeeId());
-        for (Work work : list) {
+        workDao.pageReceiveWithForeign(iPage, SessionUtil.getEmployee().getEmployeeId());
+        for (Work work : iPage.getRecords()) {
             work.setWorkTo(work.getWorkToEmployee().getEmployeeId());
             work.setEmployeeId(work.getEmployee().getEmployeeId());
         }
-        iPage.setRecords(list);
-        iPage.setTotal(count());
         return iPage;
     }
 
     @Override
-    public IPage<Work> getSendPage(int currentPage, int pageSize) {
-//        IPage ipage = new Page(currentPage, pageSize);
-//        LambdaQueryWrapper<Work> lqw = new LambdaQueryWrapper<>();
-//        Employee employee = SessionUtil.getEmployee();
-//        lqw.eq(Work::getEmployeeId, employee.getEmployeeId());
-//        lqw.orderByDesc(Work::getWorkTime);
-//        return page(ipage, lqw);
+    public IPage<Work> getSendPage(int currentPage, int pageSize,Work work1) {
         IPage<Work> iPage = new Page<>(currentPage,pageSize);
-        List<Work> list = workDao.pageSendWithForeign((currentPage - 1) * pageSize, pageSize, SessionUtil.getEmployee().getEmployeeId());
-        for (Work work : list) {
+        workDao.pageSendWithForeign(iPage, SessionUtil.getEmployee().getEmployeeId());
+        for (Work work : iPage.getRecords()) {
             work.setWorkTo(work.getWorkToEmployee().getEmployeeId());
             work.setEmployeeId(work.getEmployee().getEmployeeId());
         }
-        iPage.setRecords(list);
-        iPage.setTotal(count());
         return iPage;
     }
 

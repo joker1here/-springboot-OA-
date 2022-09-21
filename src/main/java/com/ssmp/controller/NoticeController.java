@@ -1,6 +1,7 @@
 package com.ssmp.controller;
 
 import com.ssmp.pojo.Notice;
+import com.ssmp.pojo.Work;
 import com.ssmp.service.INoticeService;
 import com.ssmp.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,8 +71,8 @@ public class NoticeController {
      * @return Result
      */
     @GetMapping("/{currentPage}/{pageSize}")
-    public Result page(@PathVariable int currentPage,@PathVariable int pageSize){
-        return Result.ok(iNoticeService.getPage(currentPage, pageSize));
+    public Result page(@PathVariable int currentPage, @PathVariable int pageSize, Work work){
+        return Result.ok(iNoticeService.getPage(currentPage, pageSize,work));
     }
 
 }

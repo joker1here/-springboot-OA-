@@ -1,5 +1,7 @@
 package com.ssmp.dao;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ssmp.pojo.Attendance;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +23,9 @@ public class AttendanceTest {
     }
     @Test
     void pageWithForeign() {
-        List<Attendance> list = attendanceDao.pageWithForeign(1,5);
-        for (Attendance attendance : list) {
+        IPage<Attendance> iPage = new Page<>(1, 3);
+        attendanceDao.pageWithForeign(iPage);
+        for (Attendance attendance : iPage.getRecords()) {
             System.out.println(attendance);
         }
     }
