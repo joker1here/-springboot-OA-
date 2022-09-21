@@ -82,6 +82,7 @@ public class ReceiveWorkController {
      */
     @GetMapping("/{currentPage}/{pageSize}")
     public Result page(@PathVariable int currentPage,@PathVariable int pageSize,Work work){
+        System.out.println("====>");
         return Result.ok(iWorkService.getReceivePage(currentPage, pageSize,work));
     }
 

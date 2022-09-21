@@ -18,30 +18,28 @@
     <select id="findSendWithForeign" resultMap="work" >
         SELECT *
         FROM Work
-        where Work_TO=#{id}
+        where Employee_ID=#{id}
         ORDER BY Work_Time DESC
     </select>
 
     <select id="findReceiveWithForeign" resultMap="work" >
         SELECT *
-        FROM Work f
-        WHERE f.Employee_ID=#{id}
-        ORDER BY f.Work_Time DESC
+        FROM Work
+        WHERE Work_TO=#{id}
+        ORDER BY Work_Time DESC
     </select>
 
     <select id="pageSendWithForeign" resultMap="work" >
         SELECT *
         FROM Work
-        where Work_TO=#{id}
-        ORDER BY f.Work_Time DESC
-        LIMIT #{start},#{pageSize}
+        where Employee_ID=#{id}
+        ORDER BY Work_Time DESC
     </select>
 
     <select id="pageReceiveWithForeign" resultMap="work" >
         SELECT *
-        FROM Work f
-        WHERE f.Employee_ID=#{id}
-        ORDER BY f.Work_Time DESC
-        LIMIT #{start},#{pageSize}
+        FROM Work
+        WHERE Work_TO=#{id}
+        ORDER BY Work_Time DESC
     </select>
 </mapper>

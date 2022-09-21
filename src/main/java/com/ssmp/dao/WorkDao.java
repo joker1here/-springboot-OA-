@@ -30,12 +30,12 @@ public interface WorkDao extends BaseMapper<Work> {
      * @param id
      * @return
      */
-    List<Work> pageReceiveWithForeign(IPage<Work> iPage, Integer id);
+    IPage<Work> pageReceiveWithForeign(IPage<Work> iPage, Integer id);
 
     /**
      * 多表联查，自定义分页-发信箱
      * @param id
      * @return
      */
-    List<Work> pageSendWithForeign(IPage<Work> iPage,Integer id);
+    IPage<Work> pageSendWithForeign(IPage<Work> iPage,Integer id);
 }
