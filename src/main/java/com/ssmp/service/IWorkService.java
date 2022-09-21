@@ -30,13 +30,6 @@ public interface IWorkService extends IService<Work> {
      */
     List<Work> findSend(Integer employeeId);
 
-    /**
-     * 已读和未读操作
-     * @param Work
-     * @param percentage
-     * @return
-     */
-    Boolean read(Work Work, Integer percentage);
 
     /**
      * 收任务分页

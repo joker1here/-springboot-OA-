@@ -57,8 +57,8 @@ public class SendWorkController {
      * @return boolean
      */
     @PutMapping
-    public Result update(@RequestBody Work Work,Integer percentage) {
-        return Result.ok(iWorkService.read(Work, percentage));
+    public Result update(@RequestBody Work Work) {
+        return Result.ok(iWorkService.updateById(Work));
     }
 
     /**

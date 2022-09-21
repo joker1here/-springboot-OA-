@@ -52,16 +52,13 @@ public class ReceiveWorkController {
     }
 
     /**
-     * 已读操作，需使用Put方式传入一个对象
-     * @param Work 文件id
-     * @param percentage 百分比
+     * 需使用Put方式传入一个对象
      * @return boolean
      */
     @PutMapping
-    public Result update(@RequestBody Work Work,Integer percentage) {
-        if (percentage<0||percentage>100)
-            return Result.fail("输入错误！");
-        return Result.ok(iWorkService.read(Work,percentage));
+    public Result update(@RequestBody Work work) {
+        System.out.println("===>"+work);
+        return Result.ok(iWorkService.updateById(work));
     }
 
     /**
@@ -82,7 +79,6 @@ public class ReceiveWorkController {
      */
     @GetMapping("/{currentPage}/{pageSize}")
     public Result page(@PathVariable int currentPage,@PathVariable int pageSize,Work work){
-        System.out.println("====>");
         return Result.ok(iWorkService.getReceivePage(currentPage, pageSize,work));
     }
 

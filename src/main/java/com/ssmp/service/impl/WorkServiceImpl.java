@@ -78,18 +78,6 @@ public class WorkServiceImpl extends ServiceImpl<WorkDao, Work> implements IWork
         return list;
     }
 
-    /**
-     * 已读和未读操作
-     * @param Work
-     * @param percentage
-     * @return
-     */
-    @Override
-    public Boolean read(Work Work, Integer percentage) {
-        Work.setWorkFinish(percentage);
-        return updateById(Work);
-    }
-
     @Override
     public IPage<Work> getReceivePage(int currentPage, int pageSize,Work work1) {
         IPage<Work> iPage = new Page<>(currentPage,pageSize);
