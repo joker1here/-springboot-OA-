@@ -25,7 +25,7 @@ public class TodoServiceImpl extends ServiceImpl<TodoDao, Todo> implements ITodo
     private TodoDao todoDao;
     /**
      * 查找属于用户的待做事项
-     *
+     * 一般不用
      * @param employeeId
      * @return
      */
@@ -35,6 +35,11 @@ public class TodoServiceImpl extends ServiceImpl<TodoDao, Todo> implements ITodo
         return list;
     }
 
+    /**
+     * 查找单个
+     * @param id
+     * @return
+     */
     @Override
     public Todo findById(Integer id) {
         Todo todo = getById(id);
@@ -42,6 +47,14 @@ public class TodoServiceImpl extends ServiceImpl<TodoDao, Todo> implements ITodo
         return todo;
     }
 
+    /**
+     * 条件查询分页
+     * todo 没有实现
+     * @param currentPage
+     * @param pageSize
+     * @param todo
+     * @return
+     */
     @Override
     public IPage<Todo> getPage(int currentPage, int pageSize,Todo todo) {
         IPage<Todo> iPage = new Page<>(currentPage,pageSize);

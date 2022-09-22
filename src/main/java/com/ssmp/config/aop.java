@@ -25,15 +25,14 @@ public class aop {
     @Around("pc1()")
     public Object around(ProceedingJoinPoint pjp) throws Throwable {
         //判断是否登陆
-        Employee employee = SessionUtil.getEmployee();
+        Employee employee = SessionUtil.getEmployee();//从自己封装的工具类中获得
         if (employee==null){
             System.out.println("没有登录！");
             return Result.fail("没有登录！");
         }
         //判断方法有无异常
         try{
-            //运行原方法
-            return pjp.proceed();
+            return pjp.proceed();//运行原方法
         }catch ( Exception e){
             System.out.println("数据库异常："+e);
             return Result.fail("数据库错误！");

@@ -25,6 +25,12 @@ public class FileServiceImpl extends ServiceImpl<FileDao, File> implements IFile
     @Autowired
     private FileDao fileDao;
 
+    /**
+     * 使用自带方法查询分页，一般不会使用这个
+     * @param currentPage
+     * @param pageSize
+     * @return
+     */
     @Override
     public IPage<File> getPage(int currentPage, int pageSize) {
         IPage<File> iPage = new Page<>(currentPage,pageSize);
@@ -36,38 +42,28 @@ public class FileServiceImpl extends ServiceImpl<FileDao, File> implements IFile
         return iPage;
     }
 
-    @Override
-    public File findById(Integer id) {
-        File file = getById(id);
-        addForeign(file);
-        return file;
-    }
-
+    /**
+     * 寻找收到的文件信息分页，一般使用这个
+     * @param employeeId
+     * @return
+     */
     @Override
     public List<File> findReceived(Integer employeeId) {
-//        LambdaQueryWrapper<File> lqw = new LambdaQueryWrapper<>();
-//        lqw.eq(File::getFileTo, employeeId);
-//        List<File> list = list(lqw);
-//        for (File file : list) {
-//            addForeign(file);
-//        }
         List<File> list = fileDao.findReceiveWithForeign(employeeId);
-        for (File file : list) {
+        for (File file : list) {//因为外键信息被顶掉，重写写回
             file.setFileTo(file.getToEmployee().getEmployeeId());
             file.setEmployeeId(file.getEmployee().getEmployeeId());
         }
         return list;
     }
 
+    /**
+     * 寻找发送的文件信息
+     * @param employeeId
+     * @return
+     */
     @Override
     public List<File> findSend(Integer employeeId) {
-//        LambdaQueryWrapper<File> lqw = new LambdaQueryWrapper<>();
-//        lqw.eq(File::getEmployeeId, employeeId);
-//        List<File> list = list(lqw);
-//        for (File file : list) {
-//            addForeign(file);
-//        }
-
         List<File> list = fileDao.findSendWithForeign(employeeId);
         for (File file : list) {
             file.setFileTo(file.getToEmployee().getEmployeeId());
@@ -77,20 +73,12 @@ public class FileServiceImpl extends ServiceImpl<FileDao, File> implements IFile
     }
 
     /**
-     * 已读和未读操作
-     * @param file
+     * 获得收到的文件信息分页
+     * @param currentPage
+     * @param pageSize
+     * @param file1
      * @return
      */
-    @Override
-    public Boolean read(File file) {
-        if (file.getFileRead() == 0) {
-            file.setFileRead(1);
-        }else {
-            file.setFileRead(0);
-        }
-        return updateById(file);
-    }
-
     @Override
     public IPage<File> getReceivePage(int currentPage, int pageSize,File file1) {
         IPage<File> iPage = new Page<>(currentPage,pageSize);
@@ -102,6 +90,13 @@ public class FileServiceImpl extends ServiceImpl<FileDao, File> implements IFile
         return iPage;
     }
 
+    /**
+     * 获得发送的文件信息分页
+     * @param currentPage
+     * @param pageSize
+     * @param file1
+     * @return
+     */
     @Override
     public IPage<File> getSendPage(int currentPage, int pageSize,File file1) {
         IPage<File> iPage = new Page<>(currentPage,pageSize);
@@ -111,6 +106,33 @@ public class FileServiceImpl extends ServiceImpl<FileDao, File> implements IFile
             file.setEmployeeId(file.getEmployee().getEmployeeId());
         }
         return iPage;
+    }
+
+    /**
+     * 寻找单个
+     * @param id 文件id
+     * @return
+     */
+    @Override
+    public File findById(Integer id) {
+        File file = getById(id);
+        addForeign(file);
+        return file;
+    }
+
+    /**
+     * 已读和未读操作，已读设为未读，未读设为已读
+     * @param file
+     * @return
+     */
+    @Override
+    public Boolean read(File file) {
+        if (file.getFileRead() == 0) {
+            file.setFileRead(1);
+        }else {
+            file.setFileRead(0);
+        }
+        return updateById(file);
     }
 
     private void addForeign(File file) {

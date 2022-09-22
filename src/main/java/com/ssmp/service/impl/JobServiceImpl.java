@@ -12,6 +12,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class JobServiceImpl extends ServiceImpl<JobDao, Job> implements IJobService {
+    /**
+     * 按条件查询分页
+     * @param currentPage
+     * @param pageSize
+     * @param job
+     * @return
+     */
     @Override
     public IPage<Job> getPage(int currentPage, int pageSize,Job job) {
         IPage<Job> ipage = new Page(currentPage, pageSize);

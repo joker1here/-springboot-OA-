@@ -21,21 +21,19 @@ public class LoginController {
      * 登陆
      * @param name
      * @param pwd
-     * @param session
      * @return
      */
     @GetMapping("/{name}/{pwd}")
-    public Result login(@PathVariable String name, @PathVariable String pwd, HttpSession session) {
-        return employeeService.login(name,pwd,session);
+    public Result login(@PathVariable String name, @PathVariable String pwd) {
+        return employeeService.login(name,pwd);
     }
 
     /**
      * 登出
-     * @param session
      * @return
      */
     @GetMapping
-    public Result logout(HttpSession session){
-        return employeeService.logout(session);
+    public Result logout(){
+        return employeeService.logout();
     }
 }

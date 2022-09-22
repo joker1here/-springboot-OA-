@@ -34,17 +34,15 @@ public interface IEmployeeService extends IService<Employee> {
      * 登陆功能，验证用户名和密码
      * @param name 用户名
      * @param pwd 密码
-     * @param session
      * @return boolean
      */
-    Result login(String name, String pwd, HttpSession session);
+    Result login(String name, String pwd);
 
     /**
      * 登出
-     * @param session
      * @return
      */
-    Result logout(HttpSession session);
+    Result logout();
 
     IPage<Employee> getPageSelect(int currentPage, int pageSize, Employee employee);
 }

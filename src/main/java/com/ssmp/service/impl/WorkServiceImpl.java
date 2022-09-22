@@ -24,6 +24,49 @@ public class WorkServiceImpl extends ServiceImpl<WorkDao, Work> implements IWork
 
     @Autowired
     private WorkDao workDao;
+
+    /**
+     * 按条件查询收到任务的分页，经常使用
+     * @param currentPage
+     * @param pageSize
+     * @param work1
+     * @return
+     */
+    @Override
+    public IPage<Work> getReceivePage(int currentPage, int pageSize,Work work1) {
+        IPage<Work> iPage = new Page<>(currentPage,pageSize);
+        workDao.pageReceiveWithForeign(iPage, SessionUtil.getEmployee().getEmployeeId());
+        for (Work work : iPage.getRecords()) {
+            work.setWorkTo(work.getWorkToEmployee().getEmployeeId());
+            work.setEmployeeId(work.getEmployee().getEmployeeId());
+        }
+        return iPage;
+    }
+
+    /**
+     * 按条件查询发送的文件，经常使用
+     * @param currentPage
+     * @param pageSize
+     * @param work1
+     * @return
+     */
+    @Override
+    public IPage<Work> getSendPage(int currentPage, int pageSize,Work work1) {
+        IPage<Work> iPage = new Page<>(currentPage,pageSize);
+        workDao.pageSendWithForeign(iPage, SessionUtil.getEmployee().getEmployeeId());
+        for (Work work : iPage.getRecords()) {
+            work.setWorkTo(work.getWorkToEmployee().getEmployeeId());
+            work.setEmployeeId(work.getEmployee().getEmployeeId());
+        }
+        return iPage;
+    }
+
+    /**
+     * 自带的分页，一般不用
+     * @param currentPage
+     * @param pageSize
+     * @return
+     */
     @Override
     public IPage<Work> getPage(int currentPage, int pageSize) {
         IPage<Work> iPage = new Page<>(currentPage,pageSize);
@@ -42,16 +85,13 @@ public class WorkServiceImpl extends ServiceImpl<WorkDao, Work> implements IWork
         return Work;
     }
 
+    /**
+     * 查找收到的任务，一般不用
+     * @param employeeId
+     * @return
+     */
     @Override
     public List<Work> findReceived(Integer employeeId) {
-//        LambdaQueryWrapper<Work> lqw = new LambdaQueryWrapper<>();
-//        lqw.orderByDesc(Work::getWorkTime);
-//        lqw.eq(Work::getWorkTo, employeeId);
-//        List<Work> list = list(lqw);
-//        for (Work Work : list) {
-//            addForeign(Work);
-//        }
-//        return list;
         List<Work> list = workDao.findReceiveWithForeign(employeeId);
         for (Work work : list) {
             work.setWorkTo(work.getWorkToEmployee().getEmployeeId());
@@ -60,44 +100,19 @@ public class WorkServiceImpl extends ServiceImpl<WorkDao, Work> implements IWork
         return list;
     }
 
+    /**
+     * 查找发送的任务，一般不用
+     * @param employeeId
+     * @return
+     */
     @Override
     public List<Work> findSend(Integer employeeId) {
-//        LambdaQueryWrapper<Work> lqw = new LambdaQueryWrapper<>();
-//        lqw.orderByDesc(Work::getWorkTime);
-//        lqw.eq(Work::getEmployeeId, employeeId);
-//        List<Work> list = list(lqw);
-//        for (Work Work : list) {
-//            addForeign(Work);
-//        }
-//        return list;
         List<Work> list = workDao.findSendWithForeign(employeeId);
         for (Work work : list) {
             work.setWorkTo(work.getWorkToEmployee().getEmployeeId());
             work.setEmployeeId(work.getEmployee().getEmployeeId());
         }
         return list;
-    }
-
-    @Override
-    public IPage<Work> getReceivePage(int currentPage, int pageSize,Work work1) {
-        IPage<Work> iPage = new Page<>(currentPage,pageSize);
-        workDao.pageReceiveWithForeign(iPage, SessionUtil.getEmployee().getEmployeeId());
-        for (Work work : iPage.getRecords()) {
-            work.setWorkTo(work.getWorkToEmployee().getEmployeeId());
-            work.setEmployeeId(work.getEmployee().getEmployeeId());
-        }
-        return iPage;
-    }
-
-    @Override
-    public IPage<Work> getSendPage(int currentPage, int pageSize,Work work1) {
-        IPage<Work> iPage = new Page<>(currentPage,pageSize);
-        workDao.pageSendWithForeign(iPage, SessionUtil.getEmployee().getEmployeeId());
-        for (Work work : iPage.getRecords()) {
-            work.setWorkTo(work.getWorkToEmployee().getEmployeeId());
-            work.setEmployeeId(work.getEmployee().getEmployeeId());
-        }
-        return iPage;
     }
 
     private void addForeign(Work Work) {

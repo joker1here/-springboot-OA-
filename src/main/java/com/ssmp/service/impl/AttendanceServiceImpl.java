@@ -82,7 +82,7 @@ public class AttendanceServiceImpl extends ServiceImpl<AttendanceDao, Attendance
 
     /**
      * 为Attendance添加外键和计算工作时长，因为是地址运算，不用返回实体
-     *
+     *  先不删除
      * @param attendance
      */
     private void addForeign(Attendance attendance) {
@@ -129,16 +129,15 @@ public class AttendanceServiceImpl extends ServiceImpl<AttendanceDao, Attendance
      */
     public Attendance check(int employeeId) {
         LambdaQueryWrapper<Attendance> lqw = new LambdaQueryWrapper<>();
-        lqw.eq(Attendance::getAttendanceEmployee, employeeId).
-                and(i -> i.isNotNull(Attendance::getSignUpTime).
-                        and(p -> p.isNull(Attendance::getSignBackTime)));
+        lqw.eq(Attendance::getAttendanceEmployee, employeeId).//id相等
+                and(i -> i.isNotNull(Attendance::getSignUpTime).//存在签到
+                        and(p -> p.isNull(Attendance::getSignBackTime)));//不存在签退
         return getOne(lqw);
     }
     //获取当前时间
     public Date getDate(){
         Date date = new Date();
         date.setTime(System.currentTimeMillis());
-        System.out.println(date);
         return date;
     }
 

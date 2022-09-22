@@ -21,6 +21,6 @@ public interface EmployeeDao extends BaseMapper<Employee> {
      * 多表联查，自定义分页
      * @return
      */
-    IPage<Employee> pageWithForeign(IPage page,Integer start,Integer pageSize);
-    IPage<Employee> pageWithForeignSelect(IPage page, String employeeName, int deptId, int jobId);
+    IPage<Employee> pageWithForeign(IPage<Employee> page);
+    IPage<Employee> pageWithForeignSelect(IPage<Employee> page, String employeeName, int deptId, int jobId);
 }

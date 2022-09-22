@@ -16,7 +16,7 @@ public class AttendanceController {
 
     /**
      * 查询所有签到信息，使用Get请求不带参数,
-     * TODO 太多了,频繁请求服务器，容易炸
+     * 太多了,频繁请求服务器，容易炸——已解决（大概
      * http://localhost/Attendance
      * @return List<Attendance>
      */
@@ -29,7 +29,7 @@ public class AttendanceController {
      * 分页列表
      * @param currentPage 当前页
      * @param pageSize 页码数据条数
-     * @parm attendance 查询条件
+     * @param attendance 查询条件
      * @return IPage<Attendance>
      */
     @GetMapping("/{currentPage}/{pageSize}")

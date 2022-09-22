@@ -19,6 +19,14 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeDao, Notice> implements
     @Autowired
     private NoticeDao noticeDao;
 
+    /**
+     * 按条件查询分页
+     * todo 没有实现
+     * @param currentPage
+     * @param pageSize
+     * @param work
+     * @return
+     */
     @Override
     public IPage<Notice> getPage(int currentPage, int pageSize, Work work) {
         IPage<Notice> iPage = new Page<>(currentPage,pageSize);
