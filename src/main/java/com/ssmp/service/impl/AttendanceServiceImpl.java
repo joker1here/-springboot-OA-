@@ -77,6 +77,8 @@ public class AttendanceServiceImpl extends ServiceImpl<AttendanceDao, Attendance
         }
         Attendance attendance = check(id);
         attendance.setSignBackTime(getDate());
+        // TODO: 2022/9/22 最好把Minutes设置到数据库里，不然每次都要算一遍
+        attendance.setMinutes(minsBetween(attendance.getSignBackTime(),attendance.getSignUpTime()));
         return Result.ok(updateById(attendance));
     }
 
