@@ -11,7 +11,7 @@
  Target Server Version : 80028
  File Encoding         : 65001
 
- Date: 20/09/2022 12:31:58
+ Date: 22/09/2022 11:33:58
 */
 
 SET NAMES utf8mb4;
@@ -29,7 +29,7 @@ CREATE TABLE `attendance`  (
   PRIMARY KEY (`attendance_id`) USING BTREE,
   INDEX `e3`(`attendance_employee`) USING BTREE,
   CONSTRAINT `e3` FOREIGN KEY (`attendance_employee`) REFERENCES `employee` (`employee_id`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 41 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 42 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of attendance
@@ -69,6 +69,56 @@ INSERT INTO `attendance` VALUES (38, 1, '2022-09-15 07:49:23', '2022-09-15 07:50
 INSERT INTO `attendance` VALUES (39, 1, '2022-09-15 12:34:30', '2022-09-15 12:34:47');
 INSERT INTO `attendance` VALUES (40, 1, '2022-09-15 13:29:21', '2022-09-15 13:29:25');
 INSERT INTO `attendance` VALUES (41, 10, '2022-09-16 09:30:56', '2022-09-16 09:31:03');
+INSERT INTO `attendance` VALUES (42, 10, '2022-09-20 07:41:40', '2022-09-20 07:41:45');
+
+-- ----------------------------
+-- Table structure for car
+-- ----------------------------
+DROP TABLE IF EXISTS `car`;
+CREATE TABLE `car`  (
+  `car_id` int(0) NOT NULL,
+  `car_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '车牌号',
+  PRIMARY KEY (`car_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of car
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for car_application
+-- ----------------------------
+DROP TABLE IF EXISTS `car_application`;
+CREATE TABLE `car_application`  (
+  `application_id` int(0) NOT NULL,
+  `dept_id` int(0) NULL DEFAULT NULL,
+  `employee_id` int(0) NULL DEFAULT NULL,
+  `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `reason` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`application_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of car_application
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for cost_application
+-- ----------------------------
+DROP TABLE IF EXISTS `cost_application`;
+CREATE TABLE `cost_application`  (
+  `application_id` int(0) NOT NULL,
+  `dept_id` int(0) NULL DEFAULT NULL,
+  `employee_id` int(0) NULL DEFAULT NULL,
+  `reason` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `price` decimal(10, 2) NULL DEFAULT NULL,
+  `file_id` int(0) NULL DEFAULT NULL,
+  PRIMARY KEY (`application_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of cost_application
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for dept
@@ -79,7 +129,7 @@ CREATE TABLE `dept`  (
   `dept_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `dept_introduce` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   PRIMARY KEY (`dept_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 22 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 24 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of dept
@@ -101,7 +151,7 @@ CREATE TABLE `employee`  (
   `birthday` date NULL DEFAULT NULL,
   `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `mobile` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `Photo` mediumblob NULL,
+  `Photo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `Sex` int(0) NULL DEFAULT 0,
   `User_Level` int(0) NULL DEFAULT 0,
   `Dept_Id` int(0) NULL DEFAULT NULL,
@@ -113,16 +163,86 @@ CREATE TABLE `employee`  (
   INDEX `idx_employee_id`(`employee_id`) USING BTREE,
   CONSTRAINT `fk_deptid` FOREIGN KEY (`Dept_Id`) REFERENCES `dept` (`dept_id`) ON DELETE SET NULL ON UPDATE RESTRICT,
   CONSTRAINT `fk_jobid` FOREIGN KEY (`Job_Id`) REFERENCES `job` (`job_id`) ON DELETE SET NULL ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 46 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 128 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of employee
 -- ----------------------------
 INSERT INTO `employee` VALUES (1, '张三', '123', '肇庆学院', '1999-01-01', '123@123.com', '123456789', '', 1, 6, 1, 1);
-INSERT INTO `employee` VALUES (9, 'zhangsan', 'zhangsan', '123', '2022-05-28', '', NULL, NULL, 1, 2, 1, 3);
-INSERT INTO `employee` VALUES (10, 'Joker', 'yecanshuo159', '肇庆学院', '2022-04-30', '1231231234', NULL, NULL, 1, 4, 1, 1);
-INSERT INTO `employee` VALUES (25, 'wenshaojie', 'wenshaojie', '456', '2022-05-25', '', NULL, NULL, 1, 0, 1, 4);
-INSERT INTO `employee` VALUES (46, '李四', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 6, 1, 1);
+INSERT INTO `employee` VALUES (9, 'zhangsan', 'zhangsan', '123', '2022-05-28', '', NULL, NULL, 0, 2, 1, 3);
+INSERT INTO `employee` VALUES (10, 'Joker', 'yecanshuo159', '肇庆学院', '2022-04-29', '1231231234', NULL, NULL, 1, 4, 1, 1);
+INSERT INTO `employee` VALUES (25, 'wenshaojie', 'wenshaojie', '456', '2022-05-25', '', NULL, NULL, 0, 0, 1, 4);
+INSERT INTO `employee` VALUES (53, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (54, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (55, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (56, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (57, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (58, 'test', '123', '肇庆学院', '1998-12-30', '123@123.com', '123456789', '', 1, 0, 3, 23);
+INSERT INTO `employee` VALUES (59, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (60, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (61, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (62, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (63, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (64, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (65, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (66, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (67, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (68, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (69, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (70, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (71, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (72, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (73, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (74, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (75, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (76, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (77, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (78, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (79, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (80, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (81, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (82, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (83, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (84, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (85, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (86, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (87, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (88, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (89, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (90, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (91, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (92, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (93, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (94, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (95, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (96, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (97, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (98, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (99, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (100, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (101, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (102, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (103, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (104, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (105, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (106, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (107, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (108, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (109, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (110, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (111, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (112, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (113, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (114, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (115, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (116, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (117, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (118, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (119, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (120, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (121, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (122, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
+INSERT INTO `employee` VALUES (123, 'test', '123', '肇庆学院', '1998-12-31', '123@123.com', '123456789', '', 1, 0, 22, 23);
 
 -- ----------------------------
 -- Table structure for file
@@ -161,7 +281,7 @@ CREATE TABLE `job`  (
   `job_introduce` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `job_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   PRIMARY KEY (`job_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 23 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 32 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of job
@@ -185,13 +305,28 @@ CREATE TABLE `notice`  (
   PRIMARY KEY (`notice_id`, `employee_id`) USING BTREE,
   INDEX `EmployeeID2`(`employee_id`) USING BTREE,
   CONSTRAINT `EmployeeID2` FOREIGN KEY (`employee_id`) REFERENCES `employee` (`employee_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of notice
 -- ----------------------------
 INSERT INTO `notice` VALUES (1, '通知一', '这是通知一', '2022-05-05 22:42:10', 1);
 INSERT INTO `notice` VALUES (14, '11', '11', '2022-06-06 13:17:55', 10);
+
+-- ----------------------------
+-- Table structure for relation
+-- ----------------------------
+DROP TABLE IF EXISTS `relation`;
+CREATE TABLE `relation`  (
+  `relation_id` int(0) NOT NULL,
+  `employee_id` int(0) NULL DEFAULT NULL,
+  `is_read` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`relation_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of relation
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for task
@@ -228,7 +363,7 @@ CREATE TABLE `todo`  (
   PRIMARY KEY (`todo_id`) USING BTREE,
   INDEX `e4`(`employee_id`) USING BTREE,
   CONSTRAINT `e4` FOREIGN KEY (`employee_id`) REFERENCES `employee` (`employee_id`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 18 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of todo
@@ -255,15 +390,15 @@ CREATE TABLE `work`  (
   INDEX `e1`(`employee_id`) USING BTREE,
   CONSTRAINT `e1` FOREIGN KEY (`employee_id`) REFERENCES `employee` (`employee_id`) ON DELETE CASCADE ON UPDATE RESTRICT,
   CONSTRAINT `e2` FOREIGN KEY (`work_to`) REFERENCES `employee` (`employee_id`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of work
 -- ----------------------------
 INSERT INTO `work` VALUES (1, '2022-05-13 09:58:20', 1, 10, '完成任务', 55);
 INSERT INTO `work` VALUES (6, '2022-05-25 15:32:35', 9, 10, '完成邮箱', 40);
-INSERT INTO `work` VALUES (7, '2022-06-30 15:33:07', 10, 10, '123', 100);
+INSERT INTO `work` VALUES (7, '2022-06-22 16:00:00', 10, 9, '123', 28);
 INSERT INTO `work` VALUES (8, '2022-05-20 15:35:29', 1, 10, '111', 60);
-INSERT INTO `work` VALUES (11, '2022-05-25 15:37:41', 1, 10, '1112', 90);
+INSERT INTO `work` VALUES (11, '2022-05-25 15:37:41', 1, 10, '1112', 49);
 
 SET FOREIGN_KEY_CHECKS = 1;
