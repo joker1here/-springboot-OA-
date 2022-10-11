@@ -3,24 +3,40 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.ssmp.dao.AttendanceDao">
-    <resultMap id="employee" type="employee" autoMapping="true"/>
+    <resultMap id="employee" type="employee" autoMapping="true">
+        <association property="dept" column="dept_id" resultMap="dept" javaType="Dept"/>
+        <association property="job" column="job_id" resultMap="job" javaType="Job"/>
+    </resultMap>
+
+    <resultMap id="dept" type="Dept" autoMapping="true"/>
+    <resultMap id="job" type="Job" autoMapping="true"/>
 
     <resultMap id="attendance" type="Attendance" autoMapping="true">
+        <result property="timeDiff" column="timeDiff"/>
         <association property="employee" column="AttendanceEmployee" resultMap="employee" javaType="Employee"/>
+
     </resultMap>
 
 <!--    可以用*代替，最好还是把列名打上-->
-    <select id="findAllWithForeign" resultMap="attendance" >
-        SELECT *
-        FROM attendance a ,employee e
-        WHERE a.Attendance_Employee=e.Employee_Id
-        ORDER BY a.Sign_Up_Time DESC
-    </select>
+<!--    <select id="findAllWithForeign" resultMap="attendance" >-->
+<!--        SELECT *-->
+<!--        FROM attendance a ,employee e-->
+<!--        WHERE a.Attendance_Employee=e.Employee_Id-->
+<!--        ORDER BY a.Sign_Up_Time DESC-->
+<!--    </select>-->
 
+    <select id="findAllWithForeign" resultMap="attendance" >
+        SELECT *,TIMEDIFF(sign_back_time,sign_up_time) timeDiff
+        FROM attendance a LEFT JOIN employee e ON a.attendance_employee=e.employee_id
+                          LEFT JOIN dept d ON e.Dept_Id=d.dept_id
+                          LEFT JOIN job j ON e.Job_Id=j.Job_Id
+        ORDER BY a.sign_up_time DESC
+    </select>
     <select id="pageWithForeign" resultMap="attendance" >
-        SELECT *
-        FROM attendance a ,employee e
-        WHERE a.Attendance_Employee=e.Employee_Id
-        ORDER BY a.Sign_Up_Time DESC
+        SELECT *,TIMEDIFF(sign_back_time,sign_up_time) timeDiff
+        FROM attendance a LEFT JOIN employee e ON a.attendance_employee=e.employee_id
+                          LEFT JOIN dept d ON e.Dept_Id=d.dept_id
+                          LEFT JOIN job j ON e.Job_Id=j.Job_Id
+        ORDER BY a.sign_up_time DESC
     </select>
 </mapper>

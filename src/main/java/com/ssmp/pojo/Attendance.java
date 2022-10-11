@@ -23,5 +23,5 @@ public class Attendance implements Serializable {
     private Date SignUpTime;
     private Date SignBackTime;
     @TableField(exist = false)
-    private int minutes;
+    private Date timeDiff;
 }

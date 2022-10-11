@@ -43,14 +43,19 @@ public class AttendanceServiceImpl extends ServiceImpl<AttendanceDao, Attendance
      * @return IPage<Attendance>
      */
     @Override
-    public IPage<Attendance> getPage(int currentPage, int pageSize,Attendance attendance) {
-        IPage<Attendance> iPage = new Page<>(currentPage,pageSize);
+    public IPage<Attendance> getPage(int currentPage, int pageSize, Attendance attendance) {
+        IPage<Attendance> iPage = new Page<>(currentPage, pageSize);
         attendanceDao.pageWithForeign(iPage);
+//        System.out.println("------>");
+//        for (Attendance record : iPage.getRecords()) {
+//            System.out.println(record);
+//        }
         return iPage;
     }
 
     /**
      * 签到
+     *
      * @param id 用户id
      * @return Result
      */
@@ -67,33 +72,34 @@ public class AttendanceServiceImpl extends ServiceImpl<AttendanceDao, Attendance
 
     /**
      * 签退
+     *
      * @param id 用户id
      * @return Result
      */
     @Override
     public Result Back(Integer id) {
-        if (!alreadySignUp(id)) {
+        Attendance attendance = check(id);
+        if (attendance==null) {
             return Result.fail("还没有签到，请先签到！");
         }
-        Attendance attendance = check(id);
         attendance.setSignBackTime(getDate());
-        // TODO: 2022/9/22 最好把Minutes设置到数据库里，不然每次都要算一遍
-        attendance.setMinutes(minsBetween(attendance.getSignBackTime(),attendance.getSignUpTime()));
+
         return Result.ok(updateById(attendance));
     }
 
     /**
      * 为Attendance添加外键和计算工作时长，因为是地址运算，不用返回实体
-     *  先不删除
+     * 先不删除
+     *
      * @param attendance
      */
     private void addForeign(Attendance attendance) {
-        attendance.setEmployee(employeeService.findById (attendance.getAttendanceEmployee()));
-        attendance.setMinutes(minsBetween(attendance.getSignBackTime(),attendance.getSignUpTime()));
+        attendance.setEmployee(employeeService.findById(attendance.getAttendanceEmployee()));
     }
 
     /**
      * 计算两个日期的差值
+     *
      * @param date1 签到日期
      * @param date2 签退日期
      * @return 分钟数
@@ -113,6 +119,7 @@ public class AttendanceServiceImpl extends ServiceImpl<AttendanceDao, Attendance
 
     /**
      * 判断是否已经签到过
+     *
      * @param employeeId 用户id
      * @return
      */
@@ -126,6 +133,7 @@ public class AttendanceServiceImpl extends ServiceImpl<AttendanceDao, Attendance
 
     /**
      * 查找签到且没签退记录
+     *
      * @param employeeId
      * @return
      */
@@ -133,11 +141,12 @@ public class AttendanceServiceImpl extends ServiceImpl<AttendanceDao, Attendance
         LambdaQueryWrapper<Attendance> lqw = new LambdaQueryWrapper<>();
         lqw.eq(Attendance::getAttendanceEmployee, employeeId).//id相等
                 and(i -> i.isNotNull(Attendance::getSignUpTime).//存在签到
-                        and(p -> p.isNull(Attendance::getSignBackTime)));//不存在签退
+                and(p -> p.isNull(Attendance::getSignBackTime)));//不存在签退
         return getOne(lqw);
     }
+
     //获取当前时间
-    public Date getDate(){
+    public Date getDate() {
         Date date = new Date();
         date.setTime(System.currentTimeMillis());
         return date;
